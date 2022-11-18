@@ -3,6 +3,7 @@ import Web3EthContract from "web3-eth-contract";
 import Web3 from "web3";
 // log
 import { fetchData } from "../data/dataActions";
+import toast from "react-hot-toast";
 
 const connectRequest = () => {
   return {
@@ -81,13 +82,22 @@ export const connect = () => {
           });
           // Add listeners end
         } else {
-          dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
+          toast.error(`Change network to Polygon.`, {
+            style: {
+              background: "#780020",
+              color: "#fff",
+            },
+          });
         }
       } catch (err) {
-        dispatch(connectFailed("Something went wrong."));
+        toast.error(err.message);
       }
     } else {
-      dispatch(connectFailed("Install Metamask."));
+      toast.error("Compatible with Metamask Only", {
+        style: {
+          color: "#ff3b5f",
+        },
+      });
     }
   };
 };

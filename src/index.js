@@ -9,6 +9,7 @@ import "./styles/reset.css";
 ReactDOM.render(
   <Provider store={store}>
     <App />
+    <Toaster />
   </Provider>,
   document.getElementById("dapp-container")
 );
