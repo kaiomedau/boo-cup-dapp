@@ -9,17 +9,6 @@ import MintCard from "./components/mintCard";
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
 
-// function getMintData(price) {
-//   return {
-//     gasLimit: String(CONFIG.GAS_LIMIT),
-//     maxPriorityFeePerGas: null,
-//     maxFeePerGas: null,
-//     to: CONFIG.CONTRACT,
-//     from: blockchain.account,
-//     value: String(price),
-//   };
-// }
-
 function App() {
   const loadingToast = toast;
 
@@ -50,36 +39,6 @@ function App() {
       value: String(price),
     };
   };
-
-  // const getTokenPrice = () => {
-  //   blockchain.smartContract.methods
-  //     .tokenPrice()
-  //     .call()
-  //     .then((receipt) => {
-  //       setDisplayPrice(
-  //         receipt == 0
-  //           ? "Free + Gas"
-  //           : Web3B.utils.fromWei(receipt, "ether") + " MATIC + Gas"
-  //       );
-  //       setMintPrice(receipt);
-  //     });
-  // };
-
-  // const checkWhitelistForAddress = () => {
-  //   console.log(
-  //     "🔥 Retriving Whitelist Status for ID: " + String(CONFIG.CURRENT_ID)
-  //   );
-
-  //   blockchain.smartContract.methods
-  //     .isAddressWhitelistedForTokenId(blockchain.account, CONFIG.CURRENT_ID)
-  //     .call()
-  //     .then((receipt) => {
-  //       console.log("🔥🔥 Whitelist for token: " + receipt);
-
-  //       // Set mint price
-  //       setWhitelisted(receipt);
-  //     });
-  // };
 
   // ******************************************************
   // Mint
@@ -212,13 +171,6 @@ function App() {
       blockchain.smartContract !== null
     ) {
       retriveWhitelistCount();
-      // dispatch(fetchData(blockchain.account));
-      // get whitelist total
-      // checkWhitelistForAddress();
-      // get token price
-      // getTokenPrice();
-      // get mint count
-      // getTokenBalanceForAddress();
     }
   };
 
@@ -259,6 +211,11 @@ function App() {
       {whitelisted || viblisted ? (
         <div id="whitelists">
           <h2>VIP Packs</h2>
+          <p>
+            The packages below are special, only for those who got one of the
+            VIP lists available for the Boo Cup. Check the details below before
+            choosing yours.
+          </p>
           <div className="card-packs">
             {whitelisted ? (
               <MintCard
@@ -297,7 +254,12 @@ function App() {
         </div>
       ) : null}
       <div>
-        <h2>Packs</h2>
+        <h2>Normal Packs</h2>
+        <p>
+          Choose which package you want to purchase. Common, Uncommon and Rare
+          packas have different NFT amounts and rarities, make sure to check the
+          details below.
+        </p>
         <div className="card-packs">
           <MintCard
             type="common"

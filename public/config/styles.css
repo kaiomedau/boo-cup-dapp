@@ -52,6 +52,10 @@ a {
   /*border: solid red;*/
 }
 
+p {
+  color: #000;
+}
+
 header {
   display: block;
   font-size: 24px;
@@ -275,11 +279,17 @@ button:disabled {
   width: 100%;
   border: none;
   border-radius: 20px;
+  background: #fff;
+  border: solid 2px;
+  color: #000;
 }
 
 #dapp-container h2 {
   font-size: 40px;
   margin: 14px;
+
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #000;
 }
 
 #dapp-container h3 {
@@ -422,6 +432,7 @@ h4.congratulations {
 }
 
 .card-packs {
+  margin-top: 32px;
   display: flex;
 }
 
@@ -458,8 +469,21 @@ h4.congratulations {
 }
 
 #mint-result .wrapper {
-  max-width: 420px;
+  width: 420px;
+  max-width: 90%;
   margin: auto;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#mint-result button {
+  margin: auto;
+  margin-top: 20px;
+  max-width: 90%;
 }
 
 #cards {
