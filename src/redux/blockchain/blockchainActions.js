@@ -4,6 +4,7 @@ import Web3 from "web3";
 // log
 import { fetchData } from "../data/dataActions";
 import toast from "react-hot-toast";
+import { CONFIG } from "../../config/config";
 
 const connectRequest = () => {
   return {
@@ -42,13 +43,6 @@ export const connect = () => {
       },
     });
     const abi = await abiResponse.json();
-    const configResponse = await fetch("/config/config.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const CONFIG = await configResponse.json();
     const { ethereum } = window;
     const metamaskIsInstalled = ethereum && ethereum.isMetaMask;
     if (metamaskIsInstalled) {
@@ -62,10 +56,7 @@ export const connect = () => {
           method: "net_version",
         });
         if (networkId == CONFIG.NETWORK.ID) {
-          const SmartContractObj = new Web3EthContract(
-            abi,
-            CONFIG.CONTRACT_ADDRESS
-          );
+          const SmartContractObj = new Web3EthContract(abi, CONFIG.CONTRACT);
           dispatch(
             connectSuccess({
               account: accounts[0],
