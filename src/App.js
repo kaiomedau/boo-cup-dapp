@@ -3,9 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import toast from "react-hot-toast";
+import { CONFIG } from "./config/config";
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
+
+// function getMintData(price) {
+//   return {
+//     gasLimit: String(CONFIG.GAS_LIMIT),
+//     maxPriorityFeePerGas: null,
+//     maxFeePerGas: null,
+//     to: CONFIG.CONTRACT,
+//     from: blockchain.account,
+//     value: String(price),
+//   };
+// }
 
 function App() {
   const loadingToast = toast;
@@ -27,23 +39,16 @@ function App() {
   //
   //
   //
-  const [CONFIG, SET_CONFIG] = useState({
-    CONTRACT_ADDRESS: "",
-    SCAN_LINK: "",
-    NETWORK: {
-      NAME: "",
-      SYMBOL: "",
-      ID: 0,
-    },
-    NFT_NAME: "",
-    SYMBOL: "",
-    MAX_SUPPLY: 1,
-    WEI_COST: 0,
-    DISPLAY_COST: 0,
-    GAS_LIMIT: 0,
-    MARKETPLACE: "",
-    MARKETPLACE_LINK: "",
-  });
+  const getMintHeader = (price) => {
+    return {
+      gasLimit: String(CONFIG.GAS_LIMIT),
+      maxPriorityFeePerGas: null,
+      maxFeePerGas: null,
+      to: CONFIG.CONTRACT,
+      from: blockchain.account,
+      value: String(price),
+    };
+  };
 
   // const getTokenPrice = () => {
   //   blockchain.smartContract.methods
@@ -104,17 +109,9 @@ function App() {
   const getCommonPack = () => {
     minting("Minting Common Pack");
 
-    let totalCostWei = String(commonPrice); // must be WEI cost
     blockchain.smartContract.methods
       .mintCommomPack()
-      .send({
-        gasLimit: String(CONFIG.GAS_LIMIT),
-        maxPriorityFeePerGas: null,
-        maxFeePerGas: null,
-        to: CONFIG.CONTRACT_ADDRESS,
-        from: blockchain.account,
-        value: totalCostWei,
-      })
+      .send(getMintHeader(commonPrice))
       .once("error", (err) => {
         endMintWithError(err);
       })
@@ -122,20 +119,13 @@ function App() {
         endMinting(receipt);
       });
   };
+
   const getUncommonPack = () => {
     minting("Minting Uncommon Pack");
 
-    let totalCostWei = String(uncommonPrice); // must be WEI cost
     blockchain.smartContract.methods
       .mintUncommonPack()
-      .send({
-        gasLimit: String(CONFIG.GAS_LIMIT),
-        maxPriorityFeePerGas: null,
-        maxFeePerGas: null,
-        to: CONFIG.CONTRACT_ADDRESS,
-        from: blockchain.account,
-        value: totalCostWei,
-      })
+      .send(getMintHeader(uncommonPrice))
       .once("error", (err) => {
         endMintWithError(err);
       })
@@ -143,20 +133,13 @@ function App() {
         endMinting(receipt);
       });
   };
+
   const getRarePack = () => {
     minting("Minting Rare Pack");
 
-    let totalCostWei = String(rarePrice); // must be WEI cost
     blockchain.smartContract.methods
       .mintRarePack()
-      .send({
-        gasLimit: String(CONFIG.GAS_LIMIT),
-        maxPriorityFeePerGas: null,
-        maxFeePerGas: null,
-        to: CONFIG.CONTRACT_ADDRESS,
-        from: blockchain.account,
-        value: totalCostWei,
-      })
+      .send(getMintHeader(rarePrice))
       .once("error", (err) => {
         endMintWithError(err);
       })
@@ -181,17 +164,9 @@ function App() {
   const getWhitelistCommon = () => {
     minting("Minting Common Whitelist");
 
-    let totalCostWei = String(commonPrice / 2); // must be WEI cost
     blockchain.smartContract.methods
       .mintWl()
-      .send({
-        gasLimit: String(CONFIG.GAS_LIMIT),
-        maxPriorityFeePerGas: null,
-        maxFeePerGas: null,
-        to: CONFIG.CONTRACT_ADDRESS,
-        from: blockchain.account,
-        value: totalCostWei,
-      })
+      .send(getMintHeader(commonPrice / 2))
       .once("error", (err) => {
         endMintWithError(err);
       })
@@ -202,17 +177,9 @@ function App() {
   const getVIPCommonPacks = () => {
     minting("Minting VIB Common Packs");
 
-    let totalCostWei = String(0); // must be WEI cost
     blockchain.smartContract.methods
       .mintVIBCommon()
-      .send({
-        gasLimit: String(CONFIG.GAS_LIMIT),
-        maxPriorityFeePerGas: null,
-        maxFeePerGas: null,
-        to: CONFIG.CONTRACT_ADDRESS,
-        from: blockchain.account,
-        value: totalCostWei,
-      })
+      .send(getMintHeader(0))
       .once("error", (err) => {
         endMintWithError(err);
       })
@@ -223,17 +190,9 @@ function App() {
   const getVIPUncommonPack = () => {
     minting("Minting VIB Uncommon Pack");
 
-    let totalCostWei = String(0); // must be WEI cost
     blockchain.smartContract.methods
       .mintVIBUncommon()
-      .send({
-        gasLimit: String(CONFIG.GAS_LIMIT),
-        maxPriorityFeePerGas: null,
-        maxFeePerGas: null,
-        to: CONFIG.CONTRACT_ADDRESS,
-        from: blockchain.account,
-        value: totalCostWei,
-      })
+      .send(getMintHeader(0))
       .once("error", (err) => {
         endMintWithError(err);
       })
@@ -259,22 +218,22 @@ function App() {
     }
   };
 
-  const getConfig = async () => {
-    const configResponse = await fetch("/config/config.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
+  // const getConfig = async () => {
+  //   const configResponse = await fetch("/config/config.json", {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //     },
+  //   });
 
-    const config = await configResponse.json();
+  //   const config = await configResponse.json();
 
-    SET_CONFIG(config);
-  };
+  //   SET_CONFIG(config);
+  // };
 
-  useEffect(() => {
-    getConfig();
-  }, []);
+  // useEffect(() => {
+  //   getConfig();
+  // }, []);
 
   useEffect(() => {
     getData();
@@ -304,8 +263,8 @@ function App() {
 
   return (
     <>
-      {packIDS.map((i) => (
-        <div key={i}>
+      {packIDS.map((i, index) => (
+        <div key={index}>
           <img width="100" src={"/images/nfts/" + i + ".png"} />
         </div>
       ))}
