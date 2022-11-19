@@ -236,10 +236,49 @@ function App() {
 
   return (
     <div id="dapp">
-      <div id="whitelists"></div>
+      {whitelisted || viblisted ? (
+        <div id="whitelists">
+          <h2>VIP Packs</h2>
+          <div className="card-packs">
+            {whitelisted ? (
+              <MintCard
+                type="wlcommon"
+                label="Get this Pack"
+                price="03 Matic"
+                onClick={getWhitelistCommon}
+                account={blockchain.account}
+                minting={claimingNft}
+                onConnect={connectWallet}
+              />
+            ) : null}
+            {viblisted ? (
+              <>
+                <MintCard
+                  type="vibcommon"
+                  label="Get this Packs"
+                  price="Free"
+                  onClick={getVIPCommonPacks}
+                  account={blockchain.account}
+                  minting={claimingNft}
+                  onConnect={connectWallet}
+                />
+                <MintCard
+                  type="vibuncommon"
+                  label="Get this Pack"
+                  price="Free"
+                  onClick={getVIPUncommonPack}
+                  account={blockchain.account}
+                  minting={claimingNft}
+                  onConnect={connectWallet}
+                />
+              </>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
       <div>
-        <h2>Choose your Pack</h2>
-        <div class="card-packs">
+        <h2>Packs</h2>
+        <div className="card-packs">
           <MintCard
             type="common"
             label="Get this Pack"
@@ -271,28 +310,6 @@ function App() {
       </div>
     </div>
   );
-
-  // Check if wallet is connected
-  if (
-    !blockchain.account ||
-    blockchain.account === undefined ||
-    blockchain.account === "" ||
-    blockchain.smartContract === null
-  ) {
-    return (
-      <div id="dapp" className="connect">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(connect());
-            getData();
-          }}
-        >
-          Connect your wallet
-        </button>
-      </div>
-    );
-  }
 
   return (
     <>

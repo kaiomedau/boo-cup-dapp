@@ -19,8 +19,10 @@ class MintCard extends Component {
     return (
       <>
         <div className="pack">
-          <div className={"pack-image " + type}></div>
-          <div className="price-tag">{price}</div>
+          <div className="pack-image">
+            <img src={"/images/packs/" + type + ".png"}></img>
+          </div>
+          {/* <div className="price-tag">{price}</div> */}
           <div className="mint-button">{this.renderButton()}</div>
         </div>
       </>

@@ -263,7 +263,7 @@ button:disabled {
 }
 
 #dapp-container {
-  color: #6ecafd;
+  color: #fff;
   text-shadow: none;
 }
 
@@ -317,7 +317,6 @@ button:disabled {
 #dapp {
   margin: auto;
   max-width: 800px;
-  border: solid 1px red;
 }
 
 .mint-status,
@@ -340,18 +339,6 @@ button:disabled {
 
 small {
   text-transform: lowercase;
-}
-
-.public {
-  color: #6ecafd;
-}
-
-#dapp.public {
-  border-color: #6ecafd;
-}
-
-.public button:enabled {
-  background-color: #6ecafd;
 }
 
 .warning-message,
@@ -383,9 +370,11 @@ small {
   text-decoration: underline;
 }
 
-#contract {
+#contract,
+header {
   font-size: 12px;
-  margin: 40px 20px;
+  margin-bottom: 40px;
+  margin-top: 20px;
 }
 #contract a {
   color: #fff;
@@ -438,24 +427,20 @@ h4.congratulations {
 .pack {
   /* display: inline-block; */
   width: 260px;
-  margin: 0 10px;
+  margin: 0 10px 40px;
 }
 
 .pack-image {
-  border: solid 1px red;
+  /* border: solid 1px red; */
   height: 350px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 253px 350px;
+  overflow: hidden;
 }
-.pack-image.common {
-  background-image: url("../../images/packs/common.png");
+.pack-image img {
+  width: 100%;
 }
-.pack-image.uncommon {
-  background-image: url("../../images/packs/uncommon.png");
-}
-.pack-image.rare {
-  background-image: url("../../images/packs/rare.png");
+
+.mint-button {
+  margin-top: 10px;
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -470,7 +455,7 @@ h4.congratulations {
 
   .pack {
     display: inline-block;
-    width: 260px;
-    margin: 0 10px;
+    /* width: 260px; */
+    /* margin: 0 10px; */
   }
 }
