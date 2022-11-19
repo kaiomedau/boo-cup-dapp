@@ -201,6 +201,9 @@ function App() {
       });
   };
 
+  // ******************************************************
+  // DAPP
+  // ******************************************************
   const getData = () => {
     if (
       blockchain.account !== "" &&
@@ -218,26 +221,15 @@ function App() {
     }
   };
 
-  // const getConfig = async () => {
-  //   const configResponse = await fetch("/config/config.json", {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //     },
-  //   });
-
-  //   const config = await configResponse.json();
-
-  //   SET_CONFIG(config);
-  // };
-
-  // useEffect(() => {
-  //   getConfig();
-  // }, []);
-
   useEffect(() => {
     getData();
   }, [blockchain.account]);
+
+  // return (
+  //   <div id="dapp">
+
+  //   </div>
+  // );
 
   // Check if wallet is connected
   if (
