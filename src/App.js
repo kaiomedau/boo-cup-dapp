@@ -243,11 +243,11 @@ function App() {
       {packIDS.length ? (
         <div id="mint-result">
           <div className="wrapper">
-            <h4>These are your NFTs</h4>
+            <h4>🎉 These are your NFTs 🎉</h4>
             <div id="cards">
               {packIDS.map((i, index) => (
                 <div className="card" key={index}>
-                  <img width="100" src={"/images/nfts/" + i + ".png"} />
+                  <img src={"/images/nfts/" + i + ".png"} />
                 </div>
               ))}
             </div>
