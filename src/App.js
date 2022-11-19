@@ -51,6 +51,7 @@ function App() {
       .call()
       .then((receipt) => {
         console.log("🔥 Mint Status: ", receipt);
+        setMintLive(receipt);
       });
   };
 
@@ -241,7 +242,7 @@ function App() {
                 account={blockchain.account}
                 minting={claimingNft}
                 onConnect={connectWallet}
-                status={mintLive}
+                mintStatus={mintLive}
               />
             ) : null}
             {viblisted ? (
@@ -254,7 +255,7 @@ function App() {
                   account={blockchain.account}
                   minting={claimingNft}
                   onConnect={connectWallet}
-                  status={mintLive}
+                  mintStatus={mintLive}
                 />
                 <MintCard
                   type="vibuncommon"
@@ -264,7 +265,7 @@ function App() {
                   account={blockchain.account}
                   minting={claimingNft}
                   onConnect={connectWallet}
-                  status={mintLive}
+                  mintStatus={mintLive}
                 />
               </>
             ) : null}
@@ -287,7 +288,7 @@ function App() {
             account={blockchain.account}
             minting={claimingNft}
             onConnect={connectWallet}
-            status={mintLive}
+            mintStatus={mintLive}
           />
           <MintCard
             type="uncommon"
@@ -297,7 +298,7 @@ function App() {
             account={blockchain.account}
             minting={claimingNft}
             onConnect={connectWallet}
-            status={mintLive}
+            mintStatus={mintLive}
           />
           <MintCard
             type="rare"
@@ -307,7 +308,7 @@ function App() {
             account={blockchain.account}
             minting={claimingNft}
             onConnect={connectWallet}
-            status={mintLive}
+            mintStatus={mintLive}
           />
         </div>
       </div>
