@@ -4,6 +4,7 @@ import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import toast from "react-hot-toast";
 import { CONFIG } from "./config/config";
+import MintCard from "./components/mintCard";
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -225,11 +226,51 @@ function App() {
     getData();
   }, [blockchain.account]);
 
-  // return (
-  //   <div id="dapp">
+  // ******************************************************
+  // Connect Wallet
+  // ******************************************************
+  const connectWallet = () => {
+    dispatch(connect());
+    getData();
+  };
 
-  //   </div>
-  // );
+  return (
+    <div id="dapp">
+      <div id="whitelists"></div>
+      <div>
+        <h2>Choose your Pack</h2>
+        <div class="card-packs">
+          <MintCard
+            type="common"
+            label="Get this Pack"
+            price="06 Matic"
+            onClick={getCommonPack}
+            account={blockchain.account}
+            minting={claimingNft}
+            onConnect={connectWallet}
+          />
+          <MintCard
+            type="uncommon"
+            label="Get this Pack"
+            price="08 Matic"
+            onClick={getUncommonPack}
+            account={blockchain.account}
+            minting={claimingNft}
+            onConnect={connectWallet}
+          />
+          <MintCard
+            type="rare"
+            label="Get this Pack"
+            price="10 Matic"
+            onClick={getRarePack}
+            account={blockchain.account}
+            minting={claimingNft}
+            onConnect={connectWallet}
+          />
+        </div>
+      </div>
+    </div>
+  );
 
   // Check if wallet is connected
   if (

@@ -263,18 +263,8 @@ button:disabled {
 }
 
 #dapp-container {
-  background-color: rgba(255, 255, 255, 0.7);
-  margin: auto;
-
-  border-radius: 22px;
-
   color: #6ecafd;
   text-shadow: none;
-}
-
-#dapp {
-  border: solid 2px white;
-  border-radius: 22px;
 }
 
 #dapp-container button {
@@ -282,7 +272,7 @@ button:disabled {
   margin: 0;
   width: 100%;
   border: none;
-  border-radius: 0 0 20px 20px;
+  border-radius: 20px;
 }
 
 #dapp-container h2 {
@@ -322,6 +312,12 @@ button:disabled {
 
   width: 100%;
   min-height: 30px;
+}
+
+#dapp {
+  margin: auto;
+  max-width: 800px;
+  border: solid 1px red;
 }
 
 .mint-status,
@@ -389,11 +385,7 @@ small {
 
 #contract {
   font-size: 12px;
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
+  margin: 40px 20px;
 }
 #contract a {
   color: #fff;
@@ -406,45 +398,6 @@ small {
   width: 200px;
   border-radius: 12px;
   border: solid 4px white;
-}
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (max-width: 768px) {
-  header ul {
-    display: none;
-  }
-
-  #dapp-container {
-    width: 316px;
-  }
-
-  .mint-status,
-  .price-status {
-    width: 95%;
-  }
-
-  .round_button {
-    font-size: 24px;
-    padding: 20px 32px;
-  }
-
-  .content,
-  header {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-  .content p {
-    width: auto;
-  }
-
-  .question {
-    width: auto;
-  }
-
-  .question p {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
 }
 
 h4.congratulations {
@@ -478,43 +431,46 @@ h4.congratulations {
   color: #c0c0c0;
 }
 
-/* Spinner */
+.card-packs {
+  display: flex;
+}
 
-.spinner-container {
-  /*width: 100%;*/
-  /*height: 40px;*/
-  /*z-index: 99999;*/
-  text-align: center;
-  /*border: solid red;*/
-  margin-top: 20px;
-  overflow: visible;
+.pack {
+  /* display: inline-block; */
+  width: 260px;
+  margin: 0 10px;
 }
-.spinner {
-  margin: auto;
-  border: 2px solid #fff;
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-  border-radius: 50%;
-  border-right: 2px solid #018df7;
-  animation-name: spin;
-  animation-duration: 900ms;
-  animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(0.53, 0.21, 0.29, 0.67);
+
+.pack-image {
+  border: solid 1px red;
+  height: 350px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 253px 350px;
 }
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
+.pack-image.common {
+  background-image: url("../../images/packs/common.png");
 }
-@keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
+.pack-image.uncommon {
+  background-image: url("../../images/packs/uncommon.png");
+}
+.pack-image.rare {
+  background-image: url("../../images/packs/rare.png");
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+  header ul {
+    display: none;
   }
-  100% {
-    -webkit-transform: rotate(360deg);
+
+  .card-packs {
+    display: block;
+  }
+
+  .pack {
+    display: inline-block;
+    width: 260px;
+    margin: 0 10px;
   }
 }
