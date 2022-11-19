@@ -17,6 +17,9 @@ function App() {
   const [claimingNft, setClaimingNft] = useState(false);
   const [packIDS, setPackIDS] = useState([]);
 
+  const [whitelisted, setWhitelisted] = useState(0);
+  const [viblisted, setviblisted] = useState(0);
+
   const commonPrice = 0; //6000000000000000000;
   const uncommonPrice = 0; //8000000000000000000;
   const rarePrice = 0; //10000000000000000000;
@@ -24,19 +27,6 @@ function App() {
   //
   //
   //
-
-  const [warningFeedback, setWarningFeedback] = useState(``);
-  const [successFeedback, setSuccessFeedback] = useState(``);
-
-  const [mintLive, setMintLive] = useState(false);
-  const [whitelisted, setWhitelisted] = useState(false);
-
-  const [minted, setMinted] = useState(false);
-  const [tokenBalance, setTokenBalance] = useState(0);
-
-  const [displayPrice, setDisplayPrice] = useState(`0 MATIC`);
-  const [mintPrice, setMintPrice] = useState(0);
-
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
     SCAN_LINK: "",
@@ -85,23 +75,30 @@ function App() {
   //     });
   // };
 
+  // ******************************************************
   // Mint
+  // ******************************************************
   const minting = (msg) => {
     setClaimingNft(true);
     loadingToast.loading(msg, { id: loadingToast });
   };
   const endMinting = (ids) => {
     console.log(ids.events.TransferBatch.returnValues.ids);
-    // receives the NFT IDS
     setPackIDS(ids.events.TransferBatch.returnValues.ids);
+
     loadingToast.dismiss();
     toast.success("👻 Boo Yeah!");
+
     setClaimingNft(false);
+
+    getData();
   };
   const endMintWithError = (e) => {
     loadingToast.dismiss();
     toast.error(e.message);
     setClaimingNft(false);
+
+    getData();
   };
 
   const getCommonPack = () => {
@@ -168,19 +165,95 @@ function App() {
       });
   };
 
+  // ******************************************************
+  // Whitelist
+  // ******************************************************
+  const retriveWhitelistCount = () => {
+    blockchain.smartContract.methods
+      .whitelistCount(blockchain.account)
+      .call()
+      .then((receipt) => {
+        setviblisted(parseInt(receipt[0]));
+        setWhitelisted(parseInt(receipt[1]));
+        console.log("🔥 Whitelist: " + receipt[0], receipt[1]);
+      });
+  };
+  const getWhitelistCommon = () => {
+    minting("Minting Common Whitelist");
+
+    let totalCostWei = String(commonPrice / 2); // must be WEI cost
+    blockchain.smartContract.methods
+      .mintWl()
+      .send({
+        gasLimit: String(CONFIG.GAS_LIMIT),
+        maxPriorityFeePerGas: null,
+        maxFeePerGas: null,
+        to: CONFIG.CONTRACT_ADDRESS,
+        from: blockchain.account,
+        value: totalCostWei,
+      })
+      .once("error", (err) => {
+        endMintWithError(err);
+      })
+      .then((receipt) => {
+        endMinting(receipt);
+      });
+  };
+  const getVIPCommonPacks = () => {
+    minting("Minting VIB Common Packs");
+
+    let totalCostWei = String(0); // must be WEI cost
+    blockchain.smartContract.methods
+      .mintVIBCommon()
+      .send({
+        gasLimit: String(CONFIG.GAS_LIMIT),
+        maxPriorityFeePerGas: null,
+        maxFeePerGas: null,
+        to: CONFIG.CONTRACT_ADDRESS,
+        from: blockchain.account,
+        value: totalCostWei,
+      })
+      .once("error", (err) => {
+        endMintWithError(err);
+      })
+      .then((receipt) => {
+        endMinting(receipt);
+      });
+  };
+  const getVIPUncommonPack = () => {
+    minting("Minting VIB Uncommon Pack");
+
+    let totalCostWei = String(0); // must be WEI cost
+    blockchain.smartContract.methods
+      .mintVIBUncommon()
+      .send({
+        gasLimit: String(CONFIG.GAS_LIMIT),
+        maxPriorityFeePerGas: null,
+        maxFeePerGas: null,
+        to: CONFIG.CONTRACT_ADDRESS,
+        from: blockchain.account,
+        value: totalCostWei,
+      })
+      .once("error", (err) => {
+        endMintWithError(err);
+      })
+      .then((receipt) => {
+        endMinting(receipt);
+      });
+  };
+
   const getData = () => {
     if (
       blockchain.account !== "" &&
       blockchain.account !== undefined &&
       blockchain.smartContract !== null
     ) {
-      dispatch(fetchData(blockchain.account));
+      retriveWhitelistCount();
+      // dispatch(fetchData(blockchain.account));
       // get whitelist total
       // checkWhitelistForAddress();
-
       // get token price
       // getTokenPrice();
-
       // get mint count
       // getTokenBalanceForAddress();
     }
@@ -215,7 +288,7 @@ function App() {
     blockchain.smartContract === null
   ) {
     return (
-      <div id="dapp" class="connect">
+      <div id="dapp" className="connect">
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -270,151 +343,48 @@ function App() {
           </button>
         </li>
       </ul>
+      <ul>
+        {whitelisted ? (
+          <li>
+            {claimingNft === true ? (
+              <button disabled>Common WL</button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  getWhitelistCommon();
+                }}
+              >
+                Common WL
+              </button>
+            )}
+          </li>
+        ) : null}
+
+        {viblisted ? (
+          <>
+            <li>
+              <button
+                onClick={(e) => {
+                  getVIPCommonPacks();
+                }}
+              >
+                Common VIB
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={(e) => {
+                  getVIPUncommonPack();
+                }}
+              >
+                Uncommon VIB
+              </button>
+            </li>
+          </>
+        ) : null}
+      </ul>
     </>
   );
-
-  // if (currentTokenID == 0) {
-  //   return (
-  //     <>
-  //       <div id="dapp" class="closed">
-  //         <h2 class="mint-title">Boo PFP</h2>
-
-  //         <img class="current-nft" src={"current-pfp.png"}></img>
-
-  //         <div class="price-status">
-  //           <h4 class="congratulations">{CONFIG.CURRENT_NFT_NAME}</h4>
-  //         </div>
-
-  //         <button disabled>Mint Closed</button>
-  //       </div>
-  //     </>
-  //   );
-  // }
-
-  // if (claimingNft) {
-  //   return (
-  //     <>
-  //       <div id="dapp" class="closed">
-  //         <h2 class="mint-title">Boo PFP</h2>
-
-  //         <img class="current-nft" src={"current-pfp.png"}></img>
-
-  //         <div class="price-status">
-  //           <h4 class="congratulations">Hunting your Boo</h4>
-  //           <div class="spinner-container">
-  //             <div class="spinner"></div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // }
-
-  // if (minted || parseInt(tokenBalance)) {
-  //   return (
-  //     <>
-  //       <div id="dapp" class="closed">
-  //         <h2 class="mint-title">Boo PFP</h2>
-
-  //         <img class="current-nft" src={"current-pfp.png"}></img>
-
-  //         <div class="price-status">
-  //           <h4 class="congratulations">Congratulations</h4>
-  //           <p>You have minted your {CONFIG.CURRENT_NFT_NAME} PFP!</p>
-  //         </div>
-
-  //         <a
-  //           href={
-  //             "https://opensea.io/assets/matic/0xbf4c805aee2d811d6b9a1b0efe7ca527f231ed41/" +
-  //             CONFIG.CURRENT_ID
-  //           }
-  //           target="_blank"
-  //         >
-  //           <p>Check it on OpenSea</p>
-  //         </a>
-  //       </div>
-  //     </>
-  //   );
-  // }
-
-  // if (currentTokenID > 0) {
-  //   return (
-  //     <>
-  //       <div id="dapp" class="closed">
-  //         <h2 class="mint-title">Boo PFP</h2>
-
-  //         <img class="current-nft" src={"current-pfp.png"}></img>
-
-  //         {whitelisted != false ? (
-  //           <div class="price-status">
-  //             <h4 class="congratulations">{displayPrice}</h4>
-  //             <p>Is the price of this NFT</p>
-  //           </div>
-  //         ) : (
-  //           <div class="price-status">
-  //             <h4 class="congratulations">{CONFIG.CURRENT_NFT_NAME}</h4>
-  //           </div>
-  //         )}
-
-  //         {whitelisted == false ? (
-  //           <p class="not-whitelisted">
-  //             This wallet is <strong>not</strong> whitelisted
-  //             <br />
-  //             for the current PFP
-  //           </p>
-  //         ) : (
-  //           <>
-  //             <div class="donation">
-  //               {donating == true ? (
-  //                 <input
-  //                   id="donation-value"
-  //                   placeholder="Enter Matic Ammount"
-  //                   type="number"
-  //                   min="0"
-  //                   onChange={(e) => handleDonation(e.target.value)}
-  //                 />
-  //               ) : (
-  //                 <button
-  //                   onClick={(e) => {
-  //                     setDonating(true);
-  //                   }}
-  //                 >
-  //                   I want to donate to help the project
-  //                 </button>
-  //               )}
-  //             </div>
-
-  //             <button
-  //               disabled={claimingNft ? 1 : 0}
-  //               onClick={(e) => {
-  //                 e.preventDefault();
-  //                 claimNFTs();
-  //               }}
-  //             >
-  //               {claimingNft ? "Hunting..." : "Mint your Boo PFP"}
-  //             </button>
-  //           </>
-  //         )}
-  //       </div>
-
-  //       {blockchain.errorMsg !== "" ? (
-  //         <>
-  //           <div class="warning-message">{blockchain.errorMsg}</div>
-  //         </>
-  //       ) : null}
-  //       {warningFeedback !== "" ? (
-  //         <>
-  //           <div class="warning-message">{warningFeedback}</div>
-  //         </>
-  //       ) : null}
-  //       {successFeedback !== "" ? (
-  //         <>
-  //           <div class="success-message">{successFeedback}</div>
-  //         </>
-  //       ) : null}
-  //     </>
-  //   );
-  // }
 }
 
 export default App;
