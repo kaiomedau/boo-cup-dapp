@@ -271,6 +271,7 @@ button:disabled {
 #dapp-container {
   color: #fff;
   text-shadow: none;
+  margin-bottom: 50px;
 }
 
 #dapp-container button {

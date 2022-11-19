@@ -22,6 +22,8 @@ function App() {
   const [whitelisted, setWhitelisted] = useState(0);
   const [viblisted, setviblisted] = useState(0);
 
+  const [mintLive, setMintLive] = useState(false);
+
   const commonPrice = 0; //6000000000000000000;
   const uncommonPrice = 0; //8000000000000000000;
   const rarePrice = 0; //10000000000000000000;
@@ -38,6 +40,18 @@ function App() {
       from: blockchain.account,
       value: String(price),
     };
+  };
+
+  // ******************************************************
+  // Status
+  // ******************************************************
+  const getMintStatus = () => {
+    blockchain.smartContract.methods
+      .mintLive()
+      .call()
+      .then((receipt) => {
+        console.log("🔥 Mint Status: ", receipt);
+      });
   };
 
   // ******************************************************
@@ -170,6 +184,7 @@ function App() {
       blockchain.account !== undefined &&
       blockchain.smartContract !== null
     ) {
+      getMintStatus();
       retriveWhitelistCount();
     }
   };
@@ -226,6 +241,7 @@ function App() {
                 account={blockchain.account}
                 minting={claimingNft}
                 onConnect={connectWallet}
+                status={mintLive}
               />
             ) : null}
             {viblisted ? (
@@ -238,6 +254,7 @@ function App() {
                   account={blockchain.account}
                   minting={claimingNft}
                   onConnect={connectWallet}
+                  status={mintLive}
                 />
                 <MintCard
                   type="vibuncommon"
@@ -247,6 +264,7 @@ function App() {
                   account={blockchain.account}
                   minting={claimingNft}
                   onConnect={connectWallet}
+                  status={mintLive}
                 />
               </>
             ) : null}
@@ -269,6 +287,7 @@ function App() {
             account={blockchain.account}
             minting={claimingNft}
             onConnect={connectWallet}
+            status={mintLive}
           />
           <MintCard
             type="uncommon"
@@ -278,6 +297,7 @@ function App() {
             account={blockchain.account}
             minting={claimingNft}
             onConnect={connectWallet}
+            status={mintLive}
           />
           <MintCard
             type="rare"
@@ -287,6 +307,7 @@ function App() {
             account={blockchain.account}
             minting={claimingNft}
             onConnect={connectWallet}
+            status={mintLive}
           />
         </div>
       </div>

@@ -2,10 +2,12 @@ import React, { Component } from "react";
 
 class MintCard extends Component {
   renderButton() {
-    const { account, label, minting, onConnect, onClick } = this.props;
+    const { account, label, minting, status, onConnect, onClick } = this.props;
 
     if (!account || account === undefined || account === "") {
       return <button onClick={onConnect}>Connect Wallet</button>;
+    } else if (!status) {
+      return <button disabled>Mint Closed</button>;
     } else if (!minting) {
       return <button onClick={onClick}>{label}</button>;
     } else {
