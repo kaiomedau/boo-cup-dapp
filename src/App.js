@@ -215,7 +215,13 @@ function App() {
             <div id="cards">
               {packIDS.map((i, index) => (
                 <div className="card" key={index}>
-                  <img src={"/images/nfts/" + i + ".png"} />
+                  <img
+                    src={
+                      "https://www.ditothepug.com/wp-content/boo-cup/600/" +
+                      i +
+                      ".png"
+                    }
+                  />
                 </div>
               ))}
             </div>
