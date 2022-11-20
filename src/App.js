@@ -228,7 +228,7 @@ function App() {
         <div id="whitelists">
           <h2>VIP Packs</h2>
           <p>
-            The packages below are special, only for those who got one of the
+            The packages below are special, only for those who got in one of the
             VIP lists available for the Boo Cup. Check the details below before
             choosing yours.
           </p>
@@ -276,7 +276,7 @@ function App() {
         <h2>Normal Packs</h2>
         <p>
           Choose which package you want to purchase. Common, Uncommon and Rare
-          packas have different NFT amounts and rarities, make sure to check the
+          packs have different NFT amounts and rarities, make sure to check the
           details below.
         </p>
         <div className="card-packs">
