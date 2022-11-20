@@ -208,9 +208,6 @@ function App() {
 
   return (
     <div id="dapp">
-      <img
-        src={"https://www.ditothepug.com/wp-content/boo-cup/600/" + 1 + ".png"}
-      />
       {packIDS.length ? (
         <div id="mint-result">
           <div className="wrapper">
