@@ -24,9 +24,9 @@ function App() {
 
   const [mintLive, setMintLive] = useState(false);
 
-  const commonPrice = 0; //6000000000000000000;
-  const uncommonPrice = 0; //8000000000000000000;
-  const rarePrice = 0; //10000000000000000000;
+  const commonPrice = 6000000000000000000;
+  const uncommonPrice = 8000000000000000000;
+  const rarePrice = 10000000000000000000;
 
   //
   //
